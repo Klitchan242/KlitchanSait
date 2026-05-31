@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Тест для Леси 🌸</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ===== СТРАНИЦА 1 ===== -->
+<div class="page active" id="page1">
+  <div class="page-inner">
+    <div class="question-number">01</div>
+    <h1 class="question-text">Что ты ела сегодня?</h1>
+    <div class="input-wrapper">
+      <input type="text" id="answer1" class="fancy-input" placeholder="Напиши сюда..." autocomplete="off"/>
+      <div class="input-underline"></div>
+    </div>
+    <button class="next-btn" onclick="goToPage2()">
+      <span>Дальше</span>
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <div class="deco deco1">✿</div>
+  <div class="deco deco2">❀</div>
+  <div class="deco deco3">✾</div>
+</div>
+
+<!-- ===== СТРАНИЦА 2 ===== -->
+<div class="page" id="page2">
+  <div class="page-inner">
+    <div class="question-number">02</div>
+    <h1 class="question-text">Тебя зовут Олеся?</h1>
+    <div class="btn-group">
+      <button class="answer-btn yes-btn" id="yesBtn" onclick="tryYes(event)">Да</button>
+      <button class="answer-btn no-btn" onclick="goToPage3()">Нет</button>
+    </div>
+    <p class="hint-text">Попробуй нажать «Да» 😏</p>
+  </div>
+  <div class="deco deco1">✿</div>
+  <div class="deco deco4">❁</div>
+</div>
+
+<!-- ===== СТРАНИЦА 3 ===== -->
+<div class="page" id="page3">
+  <div class="page-inner">
+    <div class="question-number">03</div>
+    <h1 class="question-text">Почему у тебя 2 руки?</h1>
+    <div class="input-wrapper">
+      <input type="text" id="answer3" class="fancy-input" placeholder="Философский ответ..." autocomplete="off"/>
+      <div class="input-underline"></div>
+    </div>
+    <button class="next-btn" onclick="goToFinal()">
+      <span>Завершить</span>
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <div class="deco deco2">❀</div>
+  <div class="deco deco5">✽</div>
+</div>
+
+<!-- ===== ФИНАЛЬНАЯ СТРАНИЦА ===== -->
+<div class="page" id="pageFinal">
+  <div class="page-inner final-inner">
+    <div class="checkmark">✓</div>
+    <h1 class="final-title">Вы успешно прошли небольшой тест для Леси</h1>
+    <p class="final-sub">Спасибо за ответы! 🌸</p>
+    <button class="next-btn" onclick="goToAdmin()" style="margin-top:2rem;">
+      <span>Посмотреть ответы</span>
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <div id="emojis-container"></div>
+</div>
+
+<!-- ===== СТРАНИЦА ОТВЕТОВ ===== -->
+<div class="page" id="pageAdmin">
+  <div class="page-inner admin-inner">
+    <h2 class="admin-title">📋 Ответы пользователя</h2>
+    <div class="answer-card">
+      <div class="answer-label">01 · Что ты ела сегодня?</div>
+      <div class="answer-value" id="show1">—</div>
+    </div>
+    <div class="answer-card">
+      <div class="answer-label">02 · Тебя зовут Олеся?</div>
+      <div class="answer-value" id="show2">—</div>
+    </div>
+    <div class="answer-card">
+      <div class="answer-label">03 · Почему у тебя 2 руки?</div>
+      <div class="answer-value" id="show3">—</div>
+    </div>
+    <button class="next-btn" onclick="restart()" style="margin-top:2rem;">
+      <span>Начать заново</span>
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

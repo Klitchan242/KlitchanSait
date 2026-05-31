@@ -1,0 +1,337 @@
+/* ============================================================
+   IMPORT FONT
+   Dancing Script — рукописный жирный курсив (аналог Chicoree)
+   Загружается через Google Fonts при наличии интернета
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1,700&display=swap');
+
+/* ============================================================
+   VARIABLES
+   ============================================================ */
+:root {
+  --bg: #fff0f5;
+  --bg2: #ffe4ef;
+  --pink: #ff6fa3;
+  --pink-light: #ffb3d0;
+  --pink-dark: #e0457a;
+  --pink-pale: #ffd6e7;
+  --white: #ffffff;
+  --text: #3d1a2b;
+  --text-muted: #b07090;
+  --shadow: 0 8px 40px rgba(255,111,163,0.18);
+  --radius: 28px;
+  --font: 'Dancing Script', 'Playfair Display', Georgia, serif;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--bg);
+  font-family: var(--font);
+  color: var(--text);
+}
+
+/* ============================================================
+   BACKGROUND PATTERN
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255,179,208,.35) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,214,231,.4) 0%, transparent 50%),
+    radial-gradient(circle at 60% 10%, rgba(255,111,163,.12) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   PAGES  &  SLIDE TRANSITIONS
+   ============================================================ */
+.page {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: transform .75s cubic-bezier(.77,0,.18,1), opacity .55s ease;
+  pointer-events: none;
+}
+
+.page.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+
+.page.exit-left {
+  opacity: 0;
+  transform: translateX(-110%);
+}
+
+/* ============================================================
+   PAGE INNER CARD
+   ============================================================ */
+.page-inner {
+  position: relative; z-index: 2;
+  background: rgba(255,255,255,.75);
+  backdrop-filter: blur(18px);
+  border: 2px solid var(--pink-light);
+  border-radius: var(--radius);
+  padding: 3.5rem 4rem;
+  max-width: 600px; width: 90%;
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 1.6rem;
+  animation: cardPop .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes cardPop {
+  from { transform: scale(.88) translateY(30px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);       opacity: 1; }
+}
+
+/* ============================================================
+   QUESTION NUMBER
+   ============================================================ */
+.question-number {
+  font-family: var(--font);
+  font-size: 5rem;
+  font-weight: bold;
+  font-style: italic;
+  color: var(--pink-light);
+  line-height: 1;
+  letter-spacing: -.04em;
+  text-shadow: 0 2px 12px rgba(255,111,163,.3);
+}
+
+/* ============================================================
+   QUESTION TEXT
+   ============================================================ */
+.question-text {
+  font-family: var(--font);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: bold;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+.input-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.fancy-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2.5px solid var(--pink-light);
+  padding: .8rem .4rem;
+  font-family: var(--font);
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--text);
+  outline: none;
+  transition: border-color .3s;
+}
+
+.fancy-input::placeholder { color: var(--pink-light); }
+.fancy-input:focus { border-bottom-color: var(--pink); }
+
+.input-underline {
+  position: absolute; bottom: 0; left: 0;
+  height: 2.5px; width: 0;
+  background: linear-gradient(90deg, var(--pink), var(--pink-dark));
+  border-radius: 2px;
+  transition: width .4s cubic-bezier(.77,0,.18,1);
+}
+
+.fancy-input:focus ~ .input-underline { width: 100%; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.next-btn {
+  display: flex; align-items: center; gap: .7rem;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%);
+  color: #fff;
+  border: none; border-radius: 60px;
+  padding: .9rem 2.2rem;
+  font-family: var(--font);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(255,111,163,.4);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.next-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,111,163,.5); }
+.next-btn:active { transform: translateY(0); }
+
+.next-btn svg {
+  width: 20px; height: 20px;
+  stroke: #fff; stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ============================================================
+   Q2 — YES / NO BUTTONS
+   ============================================================ */
+.btn-group {
+  display: flex; gap: 1.2rem; flex-wrap: wrap;
+}
+
+.answer-btn {
+  border: none; border-radius: 60px;
+  padding: .85rem 2.4rem;
+  font-family: var(--font);
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.yes-btn {
+  position: fixed; /* будет управляться JS */
+  background: var(--white);
+  color: var(--pink);
+  border: 2px solid var(--pink);
+  box-shadow: 0 4px 16px rgba(255,111,163,.2);
+  z-index: 999;
+  /* начальное положение задаётся JS */
+}
+
+.no-btn {
+  background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%);
+  color: #fff;
+  box-shadow: 0 6px 22px rgba(255,111,163,.4);
+}
+
+.no-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,111,163,.5); }
+
+.hint-text {
+  font-family: var(--font);
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: .95rem;
+}
+
+/* ============================================================
+   DECORATIVE FLOWERS
+   ============================================================ */
+.deco {
+  position: absolute; z-index: 0;
+  font-size: 4rem; opacity: .18;
+  pointer-events: none;
+  animation: floatDeco 6s ease-in-out infinite;
+}
+
+.deco1 { top: 8%; left: 5%; animation-delay: 0s; font-size: 5rem; }
+.deco2 { bottom: 10%; right: 6%; animation-delay: 1.5s; font-size: 4.5rem; }
+.deco3 { top: 15%; right: 8%; animation-delay: .7s; }
+.deco4 { top: 20%; right: 5%; animation-delay: 2s; }
+.deco5 { bottom: 12%; left: 8%; animation-delay: .4s; }
+
+@keyframes floatDeco {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-18px) rotate(8deg); }
+}
+
+/* ============================================================
+   FINAL PAGE
+   ============================================================ */
+.final-inner { align-items: center; text-align: center; }
+
+.checkmark {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%);
+  color: #fff;
+  font-size: 2.2rem;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 30px rgba(255,111,163,.45);
+  animation: popIn .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.final-title {
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.final-sub {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   FLYING EMOJIS
+   ============================================================ */
+#emojis-container {
+  position: fixed; bottom: -80px; left: 0;
+  width: 100%; pointer-events: none; z-index: 0;
+}
+
+.emoji-fly {
+  position: absolute;
+  font-size: 2.2rem;
+  bottom: 0;
+  animation: flyUp 3.5s ease-out forwards;
+}
+
+@keyframes flyUp {
+  0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(-110vh) rotate(360deg) scale(.6); opacity: 0; }
+}
+
+/* ============================================================
+   ADMIN PAGE
+   ============================================================ */
+.admin-inner { gap: 1.2rem; }
+
+.admin-title {
+  font-size: 1.8rem;
+  font-style: italic;
+  color: var(--pink-dark);
+}
+
+.answer-card {
+  width: 100%;
+  background: var(--pink-pale);
+  border-radius: 16px;
+  padding: 1.1rem 1.4rem;
+  border-left: 4px solid var(--pink);
+}
+
+.answer-label {
+  font-size: .8rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: .35rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.answer-value {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text);
+  word-break: break-word;
+}
