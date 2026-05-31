@@ -4,6 +4,37 @@
 const answers = { q1: '', q2: '', q3: '' };
 
 /* ============================================================
+   SUPABASE
+   ============================================================ */
+async function saveAnswers() {
+  const { error } = await supabaseClient
+    .from('answers')
+    .insert([{
+      q1: answers.q1,
+      q2: answers.q2,
+      q3: answers.q3
+    }]);
+
+  if (error) {
+    console.error('Ошибка сохранения:', error);
+  }
+}
+
+async function loadAnswers() {
+  const { data, error } = await supabaseClient
+    .from('answers')
+    .select('*')
+    .order('id', { ascending: false });
+
+  if (error) {
+    console.error('Ошибка загрузки:', error);
+    return [];
+  }
+
+  return data;
+}
+
+/* ============================================================
    PAGE TRANSITIONS
    ============================================================ */
 function goTo(fromId, toId) {
@@ -45,7 +76,7 @@ function goToPage2() {
 }
 
 /* ============================================================
-   Q2 — YES BUTTON
+   YES BUTTON
    ============================================================ */
 function setupYesButton() {
   const btn = document.getElementById('yesBtn');
@@ -79,8 +110,12 @@ function moveYes() {
   const maxX = window.innerWidth - bw - margin;
   const maxY = window.innerHeight - bh - margin;
 
-  btn.style.left = Math.random() * maxX + margin + 'px';
-  btn.style.top = Math.random() * maxY + margin + 'px';
+  const newX = Math.random() * maxX + margin;
+  const newY = Math.random() * maxY + margin;
+
+  btn.style.transition = 'left .18s, top .18s';
+  btn.style.left = newX + 'px';
+  btn.style.top = newY + 'px';
 }
 
 document.addEventListener('mousemove', (e) => {
@@ -133,30 +168,6 @@ function goToPage3() {
 }
 
 /* ============================================================
-   SAVE TO DATABASE
-   ============================================================ */
-async function saveAnswers() {
-  try {
-    const response = await fetch('/api/save', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        q1: answers.q1,
-        q2: answers.q2,
-        q3: answers.q3
-      })
-    });
-
-    return response.ok;
-  } catch (err) {
-    console.error('Ошибка сохранения:', err);
-    return false;
-  }
-}
-
-/* ============================================================
    Q3 → FINAL
    ============================================================ */
 async function goToFinal() {
@@ -176,50 +187,27 @@ async function goToFinal() {
 }
 
 /* ============================================================
-   LOAD ALL ANSWERS
-   ============================================================ */
-async function loadAnswers() {
-  try {
-    const response = await fetch('/api/answers');
-    return await response.json();
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}
-
-/* ============================================================
-   ADMIN PAGE
+   FINAL → ADMIN
    ============================================================ */
 async function goToAdmin() {
-  const list = await loadAnswers();
+  const allAnswers = await loadAnswers();
 
   const container = document.querySelector('.admin-inner');
 
   container.innerHTML = `
-    <h2 class="admin-title">📋 Ответы пользователей</h2>
+    <h2 class="admin-title">📋 Все ответы пользователей</h2>
   `;
 
-  if (!list.length) {
+  allAnswers.forEach(item => {
     container.innerHTML += `
       <div class="answer-card">
-        <div class="answer-value">
-          Пока нет ответов
-        </div>
-      </div>
-    `;
-  }
-
-  list.forEach(item => {
-    container.innerHTML += `
-      <div class="answer-card">
-        <div class="answer-label">Что ты ела сегодня?</div>
+        <div class="answer-label">01 · Что ты ела сегодня?</div>
         <div class="answer-value">${item.q1 || '—'}</div>
 
-        <div class="answer-label">Тебя зовут Олеся?</div>
+        <div class="answer-label">02 · Тебя зовут Олеся?</div>
         <div class="answer-value">${item.q2 || '—'}</div>
 
-        <div class="answer-label">Почему у тебя 2 руки?</div>
+        <div class="answer-label">03 · Почему у тебя 2 руки?</div>
         <div class="answer-value">${item.q3 || '—'}</div>
       </div>
     `;
@@ -262,7 +250,6 @@ function restart() {
    ============================================================ */
 function launchEmojis() {
   const container = document.getElementById('emojis-container');
-
   container.innerHTML = '';
 
   const emojis = ['🌸','💕','✨','🎉','🌺','💖','🦋','🌷','💗','🎊','🥰','🌼'];
@@ -274,9 +261,9 @@ function launchEmojis() {
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
 
     el.style.left = Math.random() * 96 + '%';
-    el.style.animationDelay = Math.random() * 2.5 + 's';
-    el.style.animationDuration = 2.5 + Math.random() * 2 + 's';
-    el.style.fontSize = 1.5 + Math.random() * 2 + 'rem';
+    el.style.animationDelay = (Math.random() * 2.5) + 's';
+    el.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+    el.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
 
     container.appendChild(el);
   }
@@ -302,8 +289,7 @@ shakeStyle.textContent = `
   40% { transform: translateX(8px); }
   60% { transform: translateX(-5px); }
   80% { transform: translateX(5px); }
-}
-`;
+}`;
 
 document.head.appendChild(shakeStyle);
 
