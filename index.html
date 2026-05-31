@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -77,26 +77,21 @@
 <!-- ===== СТРАНИЦА ОТВЕТОВ ===== -->
 <div class="page" id="pageAdmin">
   <div class="page-inner admin-inner">
-    <h2 class="admin-title">📋 Ответы пользователя</h2>
-    <div class="answer-card">
-      <div class="answer-label">01 · Что ты ела сегодня?</div>
-      <div class="answer-value" id="show1">—</div>
-    </div>
-    <div class="answer-card">
-      <div class="answer-label">02 · Тебя зовут Олеся?</div>
-      <div class="answer-value" id="show2">—</div>
-    </div>
-    <div class="answer-card">
-      <div class="answer-label">03 · Почему у тебя 2 руки?</div>
-      <div class="answer-value" id="show3">—</div>
-    </div>
-    <button class="next-btn" onclick="restart()" style="margin-top:2rem;">
-      <span>Начать заново</span>
-      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
+    <h2 class="admin-title">📋 Все ответы пользователей</h2>
   </div>
 </div>
 
+<!-- ===== SUPABASE ===== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+  "https://ldpeqtqdyeweixwdgwyl.supabase.co",
+  "sb_publishable_L-VSW119jgjwsStGpfhNtw_EseNPs0k"
+);
+</script>
+
 <script src="script.js"></script>
+
 </body>
 </html>
